@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { useCallback, useEffect, useState } from "react";
 
 function App() {
+  
+const [clickedCount,setClickedCount] = useState(0);
+  useEffect(()=>{
+  const customEvent = new CustomEvent("loaded",{detail:'filter2'});
+  document.dispatchEvent(customEvent);
+  const customClickEvent = new CustomEvent("clicked",{detail:0});
+    document.dispatchEvent(customClickEvent);
+  },[])
+
+  const handleClick = useCallback(()=>{
+    setClickedCount(clickedCount+1);
+    const customClickEvent = new CustomEvent("clicked",{detail:clickedCount+1});
+    document.dispatchEvent(customClickEvent);
+  },[clickedCount])
+ 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Filter 2 component
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <button onClick={handleClick}>click me </button>
     </div>
   );
 }
